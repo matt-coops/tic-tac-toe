@@ -8,15 +8,17 @@ function Player(name, marker) {
   return { name, marker };
 }
 
-const displayController = (function () {
+const gameController = (function () {
   const players = [];
   players[0] = Player("Player 1", "O");
   players[1] = Player("Player 2", "X");
   let activePlayer = players[0];
 
-  const setPlayers = (e) => {
-    players[0].name = formPlayers.querySelector(".player1").value;
-    players[1].name = formPlayers.querySelector(".player2").value;
+  const setPlayers = () => {
+    players[0].name = formPlayers.querySelector(".player1").value.toString();
+    players[1].name = formPlayers.querySelector(".player2").value.toString();
+    formPlayers.querySelector(".player1").value = "";
+    formPlayers.querySelector(".player2").value = "";
   };
 
   const getPlayers = () => players;
@@ -28,9 +30,7 @@ const displayController = (function () {
     Gameboard.updateBoard(row, column);
     Gameboard.renderBoard(square);
     console.log(`${getActivePlayer().name} has taken their turn.`);
-    // console.log("before", activePlayer.marker);
     switchPlayer();
-    // console.log("after", activePlayer.marker);
     Gameboard.getBoard();
   };
 
@@ -52,61 +52,67 @@ const displayController = (function () {
 })();
 
 const Gameboard = (function () {
-  const board = [];
+  let board = [];
 
-  const renderBoard = (square) => {
+  const renderBoard = () => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
+        // console.log(board[i][j]);
         if (board[i][j] === "O") {
-          square.textContent = displayController.getActivePlayer().marker;
+          containerGameboard.querySelector(
+            `[data-row='${i}'][data-column='${j}']`
+          ).textContent = "O";
+        } else if (board[i][j] === "X") {
+          containerGameboard.querySelector(
+            `[data-row='${i}'][data-column='${j}']`
+          ).textContent = "X";
+        } else {
+          containerGameboard.querySelector(
+            `[data-row='${i}'][data-column='${j}']`
+          ).textContent = "";
         }
       }
     }
   };
 
-  const init = (function () {
+  const initBoard = () => {
     for (let i = 0; i < 3; i++) {
       board[i] = [];
 
       for (let j = 0; j < 3; j++) {
-        //   board[i].push(`i: ${i}, j:${j}`);
         board[i].push("");
       }
     }
-    displayController.getPlayers()[0].name = "Player 1";
-    displayController.getPlayers()[1].name = "Player 2";
+    return board; // Good practice?
+  };
+
+  initBoard();
+
+  const renderInitBoard = () => {
+    board = initBoard();
     renderBoard();
-  })();
-
-  //   for (let i = 0; i < 3; i++) {
-  //     board[i] = [];
-
-  //     for (let j = 0; j < 3; j++) {
-  //       //   board[i].push(`i: ${i}, j:${j}`);
-  //       board[i].push("");
-  //     }
-  //   }
+  };
 
   const getBoard = () => board;
 
   const updateBoard = (row, column) => {
-    // if (board[row][column]) return;
-    getBoard()[row][column] = displayController.getActivePlayer().marker;
+    getBoard()[row][column] = gameController.getActivePlayer().marker;
   };
 
-  return { getBoard, updateBoard, renderBoard, init };
+  return { getBoard, updateBoard, renderBoard, renderInitBoard };
 })();
-
-//
-//
-//
 
 containerGameboard.addEventListener("click", function (e) {
   if (!e.target.dataset.row) return;
-  displayController.selectSquare(e.target);
+  gameController.selectSquare(e.target);
 });
 
 formPlayers.querySelector(".submit").addEventListener("click", function (e) {
   e.preventDefault();
-  displayController.setPlayers();
+  gameController.setPlayers();
+});
+
+resetGame.addEventListener("click", function (e) {
+  e.preventDefault();
+  Gameboard.renderInitBoard();
 });
