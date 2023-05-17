@@ -2,6 +2,7 @@
 
 const containerGameboard = document.querySelector("#gameboard");
 const formPlayers = document.querySelector("#player-form");
+const resetGame = document.querySelector("#reset-game");
 
 function Player(name, marker) {
   return { name, marker };
@@ -30,6 +31,7 @@ const displayController = (function () {
     // console.log("before", activePlayer.marker);
     switchPlayer();
     // console.log("after", activePlayer.marker);
+    Gameboard.getBoard();
   };
 
   const getActivePlayer = () => activePlayer;
@@ -52,25 +54,47 @@ const displayController = (function () {
 const Gameboard = (function () {
   const board = [];
 
-  for (let i = 0; i < 3; i++) {
-    board[i] = [];
-
-    for (let j = 0; j < 3; j++) {
-      board[i].push("");
+  const renderBoard = (square) => {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (board[i][j] === "O") {
+          square.textContent = displayController.getActivePlayer().marker;
+        }
+      }
     }
-  }
+  };
+
+  const init = (function () {
+    for (let i = 0; i < 3; i++) {
+      board[i] = [];
+
+      for (let j = 0; j < 3; j++) {
+        //   board[i].push(`i: ${i}, j:${j}`);
+        board[i].push("");
+      }
+    }
+    displayController.getPlayers()[0].name = "Player 1";
+    displayController.getPlayers()[1].name = "Player 2";
+    renderBoard();
+  })();
+
+  //   for (let i = 0; i < 3; i++) {
+  //     board[i] = [];
+
+  //     for (let j = 0; j < 3; j++) {
+  //       //   board[i].push(`i: ${i}, j:${j}`);
+  //       board[i].push("");
+  //     }
+  //   }
 
   const getBoard = () => board;
+
   const updateBoard = (row, column) => {
     // if (board[row][column]) return;
     getBoard()[row][column] = displayController.getActivePlayer().marker;
   };
 
-  const renderBoard = (square) => {
-    square.textContent = displayController.getActivePlayer().marker;
-  };
-
-  return { getBoard, updateBoard, renderBoard };
+  return { getBoard, updateBoard, renderBoard, init };
 })();
 
 //
