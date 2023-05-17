@@ -18,12 +18,15 @@ const displayController = (function () {
     players[1].name = formPlayers.querySelector(".player2").value;
   };
 
+  const getPlayers = () => players;
+
   const selectSquare = (square) => {
     const row = square.dataset.row;
     const column = square.dataset.column;
     if (Gameboard.getBoard()[row][column]) return;
     Gameboard.updateBoard(row, column);
     Gameboard.renderBoard(square);
+    console.log(`${getActivePlayer().name} has taken their turn.`);
     // console.log("before", activePlayer.marker);
     switchPlayer();
     // console.log("after", activePlayer.marker);
@@ -38,10 +41,9 @@ const displayController = (function () {
   };
 
   return {
-    players,
+    getPlayers,
     switchPlayer,
     selectSquare,
-    activePlayer,
     setPlayers,
     getActivePlayer,
   };
