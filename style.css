@@ -1,0 +1,19 @@
+#gameboard {
+  margin: 20px;
+  box-sizing: border-box;
+  display: flex;
+  width: 660px;
+  /* background-color: antiquewhite; */
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.square {
+  display: flex;
+  width: 200px;
+  height: 200px;
+  border: solid 2px black;
+  font-size: 100px;
+  justify-content: center;
+  align-items: center;
+}
