@@ -14,16 +14,14 @@ const displayController = (function () {
   let activePlayer = players[0];
 
   const setPlayers = (e) => {
-    console.log(formPlayers);
     players[0].name = formPlayers.querySelector(".player1").value;
     players[1].name = formPlayers.querySelector(".player2").value;
-    activePlayer = players[0];
-    console.log(players);
   };
 
   const selectSquare = (square) => {
     const row = square.dataset.row;
     const column = square.dataset.column;
+    if (Gameboard.getBoard()[row][column]) return;
     Gameboard.updateBoard(row, column);
     Gameboard.renderBoard(square);
     // console.log("before", activePlayer.marker);
@@ -31,14 +29,22 @@ const displayController = (function () {
     // console.log("after", activePlayer.marker);
   };
 
+  const getActivePlayer = () => activePlayer;
+
   const switchPlayer = () => {
-    // console.log("before", activePlayer.marker);
-    return (activePlayer =
-      activePlayer === players[0] ? players[1] : players[0]);
-    // console.log("after", activePlayer.marker);
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+
+    return activePlayer;
   };
 
-  return { players, switchPlayer, selectSquare, activePlayer, setPlayers };
+  return {
+    players,
+    switchPlayer,
+    selectSquare,
+    activePlayer,
+    setPlayers,
+    getActivePlayer,
+  };
 })();
 
 const Gameboard = (function () {
@@ -54,14 +60,12 @@ const Gameboard = (function () {
 
   const getBoard = () => board;
   const updateBoard = (row, column) => {
-    if (board[row][column]) return;
-    console.log(displayController.activePlayer.marker);
-    board[row][column] = displayController.activePlayer.marker;
-    console.log(getBoard());
+    // if (board[row][column]) return;
+    getBoard()[row][column] = displayController.getActivePlayer().marker;
   };
 
   const renderBoard = (square) => {
-    square.textContent = displayController.activePlayer.marker;
+    square.textContent = displayController.getActivePlayer().marker;
   };
 
   return { getBoard, updateBoard, renderBoard };
