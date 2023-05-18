@@ -1,8 +1,8 @@
 "use strict";
 
-const containerGameboard = document.querySelector("#gameboard");
-const formPlayers = document.querySelector("#player-form");
-const overlayWinner = document.querySelector("#winner-overlay");
+const containerGameboard = document.querySelector(".gameboard");
+const formPlayers = document.querySelector(".player-form");
+const overlayWinner = document.querySelector(".winner-overlay");
 
 function Player(name, marker) {
   return { name, marker };
@@ -17,20 +17,24 @@ const gameController = (function () {
 
   const setPlayers = () => {
     if (
-      !formPlayers.querySelector(".player1").value ||
-      !formPlayers.querySelector(".player1").value
+      !formPlayers.querySelector(".player1-input").value ||
+      !formPlayers.querySelector(".player2-input").value
     )
       return;
-    players[0].name = formPlayers.querySelector(".player1").value.toString();
-    players[1].name = formPlayers.querySelector(".player2").value.toString();
+    players[0].name = formPlayers
+      .querySelector(".player1-input")
+      .value.toString();
+    players[1].name = formPlayers
+      .querySelector(".player2-input")
+      .value.toString();
     formPlayers.querySelector(
-      "#player-1"
+      ".player-1"
     ).textContent = `${players[0].name}\n"O"`;
     formPlayers.querySelector(
-      "#player-2"
+      ".player-2"
     ).textContent = `${players[1].name}\n"X"`;
-    formPlayers.querySelector(".player1").value = "";
-    formPlayers.querySelector(".player2").value = "";
+    formPlayers.querySelector(".player1-input").value = "";
+    formPlayers.querySelector(".player2-input").value = "";
   };
 
   const switchGameStatus = (status) => {
@@ -79,7 +83,6 @@ const Gameboard = (function () {
   const renderBoard = () => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        // console.log(board[i][j]);
         if (board[i][j] === "O") {
           containerGameboard.querySelector(
             `[data-row='${i}'][data-column='${j}']`
@@ -170,13 +173,13 @@ containerGameboard.addEventListener("click", function (e) {
   gameController.selectSquare(e.target);
 });
 
-formPlayers.querySelector("#submit").addEventListener("click", function (e) {
+formPlayers.querySelector(".submit").addEventListener("click", function (e) {
   e.preventDefault();
   gameController.setPlayers();
 });
 
 formPlayers
-  .querySelector("#reset-game")
+  .querySelector(".reset-game")
   .addEventListener("click", function (e) {
     e.preventDefault();
     Gameboard.renderInitBoard();

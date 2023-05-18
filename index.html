@@ -8,8 +8,8 @@
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <div id="container">
-      <div id="gameboard">
+    <div class="container">
+      <div class="gameboard">
         <div class="square" data-row="0" data-column="0"></div>
         <div class="square" data-row="0" data-column="1"></div>
         <div class="square" data-row="0" data-column="2"></div>
@@ -20,15 +20,15 @@
         <div class="square" data-row="2" data-column="1"></div>
         <div class="square" data-row="2" data-column="2"></div>
       </div>
-      <div id="winner-overlay" class="hidden"></div>
-      <form id="player-form">
-        <input type="text" class="player1" />
-        <input type="text" class="player2" />
-        <button type="submit" id="submit">Submit</button>
-        <button id="reset-game">Reset</button>
-        <div id="player-names">
-          <div id="player-1" class="player-name">Player 1<br />"O"</div>
-          <div id="player-2" class="player-name">Player2<br />"X"</div>
+      <div class="winner-overlay hidden"></div>
+      <form class="player-form">
+        <input type="text" class="player1-input" />
+        <input type="text" class="player2-input" />
+        <button type="submit" class="submit">Submit</button>
+        <button class="reset-game">Reset</button>
+        <div class="player-names">
+          <div class="player-1 player-name">Player 1<br />"O"</div>
+          <div class="player-2 player-name">Player2<br />"X"</div>
         </div>
       </form>
     </div>

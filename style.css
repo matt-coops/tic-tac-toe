@@ -3,7 +3,7 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-#container {
+.container {
   background-color: rgb(206, 206, 206);
   border: solid 2px black;
   width: 700px;
@@ -14,7 +14,7 @@
   border-radius: 8px;
 }
 
-#gameboard {
+.gameboard {
   margin-top: 20px;
   display: flex;
   width: 640px;
@@ -23,7 +23,7 @@
   justify-content: space-around;
 }
 
-#gameboard.overlay {
+.gameboard.overlay {
   filter: blur(4px);
 }
 
@@ -40,7 +40,7 @@
   align-items: center;
 }
 
-#winner-overlay {
+.winner-overlay {
   display: flex;
   position: absolute;
   /* background-color: rgb(235, 235, 235); */
@@ -54,7 +54,7 @@
   cursor: pointer;
 }
 
-#winner-overlay.hidden {
+.winner-overlay.hidden {
   display: none;
 }
 
@@ -63,7 +63,7 @@ form {
   gap: 20px;
 }
 
-#player-names {
+.player-names {
   width: 370px;
   display: flex;
   flex-direction: row;
@@ -99,19 +99,19 @@ button {
   border-radius: 50%;
 }
 
-#submit {
+.submit {
   background-color: #04aa6d;
   margin-left: 20px;
 }
 
-#reset-game {
+.reset-game {
   background-color: #ff0000;
 }
 
-#submit:active {
+.submit:active {
   transform: scale(0.98);
 }
 
-#reset-game:active {
+.reset-game:active {
   transform: scale(0.98);
 }
