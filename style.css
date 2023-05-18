@@ -1,12 +1,23 @@
 * {
   box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#container {
+  background-color: rgb(206, 206, 206);
+  border: solid 2px black;
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 }
 
 #gameboard {
   margin-top: 20px;
   display: flex;
   width: 640px;
-  /* background-color: antiquewhite; */
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-around;
@@ -17,27 +28,30 @@
 }
 
 .square {
+  color: white;
+  border-radius: 5px;
+  background-color: rgb(140, 150, 155);
   display: flex;
   width: 200px;
   height: 200px;
   border: solid 2px black;
-  font-size: 100px;
+  font-size: 140px;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 }
 
 #winner-overlay {
   display: flex;
   position: absolute;
   /* background-color: rgb(235, 235, 235); */
-  top: 15%;
+  top: 12%;
   width: 640px;
   height: 200px;
   border: solid 3px black;
-  font-size: 50px;
+  font-size: 100px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 #winner-overlay.hidden {
@@ -46,4 +60,58 @@
 
 form {
   margin-top: 40px;
+  gap: 20px;
+}
+
+#player-names {
+  width: 370px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  margin-top: -30px;
+  /* border: solid 2px red; */
+}
+
+.player-name {
+  text-align: center;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: solid 2px black; */
+  width: 190px;
+  height: 100px;
+  white-space: pre-line;
+}
+
+button {
+  font-weight: 600;
+  width: 80px;
+  border: none;
+  color: white;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  /* margin: 0px 0px; */
+  border-radius: 50%;
+}
+
+#submit {
+  background-color: #04aa6d;
+  margin-left: 20px;
+}
+
+#reset-game {
+  background-color: #ff0000;
+}
+
+#submit:active {
+  transform: scale(0.98);
+}
+
+#reset-game:active {
+  transform: scale(0.98);
 }

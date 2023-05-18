@@ -16,17 +16,28 @@ const gameController = (function () {
   let activePlayer = players[0];
 
   const setPlayers = () => {
+    if (
+      !formPlayers.querySelector(".player1").value ||
+      !formPlayers.querySelector(".player1").value
+    )
+      return;
     players[0].name = formPlayers.querySelector(".player1").value.toString();
     players[1].name = formPlayers.querySelector(".player2").value.toString();
+    formPlayers.querySelector(
+      "#player-1"
+    ).textContent = `${players[0].name}\n"O"`;
+    formPlayers.querySelector(
+      "#player-2"
+    ).textContent = `${players[1].name}\n"X"`;
     formPlayers.querySelector(".player1").value = "";
     formPlayers.querySelector(".player2").value = "";
   };
 
-  const switchGameOver = (status) => {
+  const switchGameStatus = (status) => {
     gameOver = status === true ? true : false;
   };
 
-  const getGameOver = () => gameOver;
+  const getGameStatus = () => gameOver;
 
   const getPlayers = () => players;
 
@@ -51,8 +62,8 @@ const gameController = (function () {
   const resetPlayer = () => (activePlayer = players[0]);
 
   return {
-    switchGameOver,
-    getGameOver,
+    switchGameStatus,
+    getGameStatus,
     getPlayers,
     switchPlayer,
     selectSquare,
@@ -102,7 +113,7 @@ const Gameboard = (function () {
   const renderInitBoard = () => {
     overlayWinner.classList.add("hidden");
     containerGameboard.classList.remove("overlay");
-    gameController.switchGameOver(false);
+    gameController.switchGameStatus(false);
     gameController.resetPlayer();
     board = initBoard();
     renderBoard();
@@ -146,7 +157,7 @@ const Gameboard = (function () {
       overlayWinner.textContent = `${
         gameController.getActivePlayer().name
       } wins`;
-      gameController.switchGameOver(true);
+      gameController.switchGameStatus(true);
     }
     return;
   };
@@ -155,7 +166,7 @@ const Gameboard = (function () {
 })();
 
 containerGameboard.addEventListener("click", function (e) {
-  if (!e.target.dataset.row || gameController.getGameOver()) return;
+  if (!e.target.dataset.row || gameController.getGameStatus()) return;
   gameController.selectSquare(e.target);
 });
 
