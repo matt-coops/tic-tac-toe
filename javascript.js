@@ -2,7 +2,7 @@
 
 const containerGameboard = document.querySelector("#gameboard");
 const formPlayers = document.querySelector("#player-form");
-const resetGame = document.querySelector("#reset-game");
+const overlayWinner = document.querySelector("#winner-overlay");
 
 function Player(name, marker) {
   return { name, marker };
@@ -29,9 +29,9 @@ const gameController = (function () {
     if (Gameboard.getBoard()[row][column]) return;
     Gameboard.updateBoard(row, column);
     Gameboard.renderBoard(square);
-    console.log(`${getActivePlayer().name} has taken their turn.`);
+    // console.log(`${getActivePlayer().name} has taken their turn.`);
+    Gameboard.checkWinner();
     switchPlayer();
-    Gameboard.getBoard();
   };
 
   const getActivePlayer = () => activePlayer;
@@ -42,12 +42,15 @@ const gameController = (function () {
     return activePlayer;
   };
 
+  const resetPlayer = () => (activePlayer = players[0]);
+
   return {
     getPlayers,
     switchPlayer,
     selectSquare,
     setPlayers,
     getActivePlayer,
+    resetPlayer,
   };
 })();
 
@@ -89,6 +92,7 @@ const Gameboard = (function () {
   initBoard();
 
   const renderInitBoard = () => {
+    overlayWinner.classList.add("hidden");
     board = initBoard();
     renderBoard();
   };
@@ -99,7 +103,43 @@ const Gameboard = (function () {
     getBoard()[row][column] = gameController.getActivePlayer().marker;
   };
 
-  return { getBoard, updateBoard, renderBoard, renderInitBoard };
+  const checkWinner = () => {
+    // console.log(getBoard());
+    if (
+      (board[0][0] &&
+        board[0][0] === board[0][1] &&
+        board[0][1] === board[0][2]) ||
+      (board[0][0] &&
+        board[0][0] === board[1][0] &&
+        board[1][0] === board[2][0]) ||
+      (board[0][1] &&
+        board[0][1] === board[1][1] &&
+        board[1][1] === board[2][1]) ||
+      (board[0][2] &&
+        board[0][2] === board[1][2] &&
+        board[1][2] === board[2][2]) ||
+      (board[1][0] &&
+        board[1][0] === board[1][1] &&
+        board[1][1] === board[1][2]) ||
+      (board[2][0] &&
+        board[2][0] === board[2][1] &&
+        board[2][1] === board[2][2]) ||
+      (board[0][0] &&
+        board[0][0] === board[1][1] &&
+        board[1][1] === board[2][2]) ||
+      (board[0][2] &&
+        board[0][2] === board[1][1] &&
+        board[1][1] === board[2][0])
+    ) {
+      overlayWinner.classList.remove("hidden");
+      overlayWinner.textContent = `${
+        gameController.getActivePlayer().name
+      } wins`;
+    }
+    return;
+  };
+
+  return { getBoard, updateBoard, renderBoard, renderInitBoard, checkWinner };
 })();
 
 containerGameboard.addEventListener("click", function (e) {
@@ -107,12 +147,15 @@ containerGameboard.addEventListener("click", function (e) {
   gameController.selectSquare(e.target);
 });
 
-formPlayers.querySelector(".submit").addEventListener("click", function (e) {
+formPlayers.querySelector("#submit").addEventListener("click", function (e) {
   e.preventDefault();
   gameController.setPlayers();
 });
 
-resetGame.addEventListener("click", function (e) {
-  e.preventDefault();
-  Gameboard.renderInitBoard();
-});
+formPlayers
+  .querySelector("#reset-game")
+  .addEventListener("click", function (e) {
+    e.preventDefault();
+    Gameboard.renderInitBoard();
+    gameController.resetPlayer();
+  });
