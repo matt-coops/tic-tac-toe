@@ -5,10 +5,15 @@
 #gameboard {
   margin-top: 20px;
   display: flex;
-  width: 660px;
+  width: 640px;
   /* background-color: antiquewhite; */
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: space-around;
+}
+
+#gameboard.overlay {
+  filter: blur(4px);
 }
 
 .square {
@@ -25,8 +30,8 @@
 #winner-overlay {
   display: flex;
   position: absolute;
-  background-color: rgb(235, 235, 235);
-  top: 20%;
+  /* background-color: rgb(235, 235, 235); */
+  top: 15%;
   width: 640px;
   height: 200px;
   border: solid 3px black;
@@ -37,4 +42,8 @@
 
 #winner-overlay.hidden {
   display: none;
+}
+
+form {
+  margin-top: 40px;
 }

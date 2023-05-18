@@ -10,6 +10,7 @@ function Player(name, marker) {
 
 const gameController = (function () {
   const players = [];
+  let gameOver = false;
   players[0] = Player("Player 1", "O");
   players[1] = Player("Player 2", "X");
   let activePlayer = players[0];
@@ -21,6 +22,12 @@ const gameController = (function () {
     formPlayers.querySelector(".player2").value = "";
   };
 
+  const switchGameOver = (status) => {
+    gameOver = status === true ? true : false;
+  };
+
+  const getGameOver = () => gameOver;
+
   const getPlayers = () => players;
 
   const selectSquare = (square) => {
@@ -29,9 +36,8 @@ const gameController = (function () {
     if (Gameboard.getBoard()[row][column]) return;
     Gameboard.updateBoard(row, column);
     Gameboard.renderBoard(square);
-    // console.log(`${getActivePlayer().name} has taken their turn.`);
     Gameboard.checkWinner();
-    switchPlayer();
+    switchPlayer(false);
   };
 
   const getActivePlayer = () => activePlayer;
@@ -45,6 +51,8 @@ const gameController = (function () {
   const resetPlayer = () => (activePlayer = players[0]);
 
   return {
+    switchGameOver,
+    getGameOver,
     getPlayers,
     switchPlayer,
     selectSquare,
@@ -93,6 +101,9 @@ const Gameboard = (function () {
 
   const renderInitBoard = () => {
     overlayWinner.classList.add("hidden");
+    containerGameboard.classList.remove("overlay");
+    gameController.switchGameOver(false);
+    gameController.resetPlayer();
     board = initBoard();
     renderBoard();
   };
@@ -104,7 +115,6 @@ const Gameboard = (function () {
   };
 
   const checkWinner = () => {
-    // console.log(getBoard());
     if (
       (board[0][0] &&
         board[0][0] === board[0][1] &&
@@ -131,10 +141,12 @@ const Gameboard = (function () {
         board[0][2] === board[1][1] &&
         board[1][1] === board[2][0])
     ) {
+      containerGameboard.classList.add("overlay");
       overlayWinner.classList.remove("hidden");
       overlayWinner.textContent = `${
         gameController.getActivePlayer().name
       } wins`;
+      gameController.switchGameOver(true);
     }
     return;
   };
@@ -143,7 +155,7 @@ const Gameboard = (function () {
 })();
 
 containerGameboard.addEventListener("click", function (e) {
-  if (!e.target.dataset.row) return;
+  if (!e.target.dataset.row || gameController.getGameOver()) return;
   gameController.selectSquare(e.target);
 });
 
@@ -159,3 +171,5 @@ formPlayers
     Gameboard.renderInitBoard();
     gameController.resetPlayer();
   });
+
+overlayWinner.addEventListener("click", Gameboard.renderInitBoard);
