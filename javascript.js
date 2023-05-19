@@ -29,10 +29,10 @@ const gameController = (function () {
       .value.toString();
     formPlayers.querySelector(
       ".player-1"
-    ).textContent = `${players[0].name}\n"O"`;
+    ).textContent = `${players[0].name}\nO`;
     formPlayers.querySelector(
       ".player-2"
-    ).textContent = `${players[1].name}\n"X"`;
+    ).textContent = `${players[1].name}\nX`;
     formPlayers.querySelector(".player1-input").value = "";
     formPlayers.querySelector(".player2-input").value = "";
   };
