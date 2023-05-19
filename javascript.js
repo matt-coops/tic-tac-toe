@@ -1,5 +1,5 @@
 "use strict";
-
+const container = document.querySelector(".container");
 const containerGameboard = document.querySelector(".gameboard");
 const formPlayers = document.querySelector(".player-form");
 const overlayWinner = document.querySelector(".winner-overlay");
@@ -186,4 +186,6 @@ formPlayers
     gameController.resetPlayer();
   });
 
-overlayWinner.addEventListener("click", Gameboard.renderInitBoard);
+overlayWinner.addEventListener("click", function (e) {
+  Gameboard.renderInitBoard();
+});
